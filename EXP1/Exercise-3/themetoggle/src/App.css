@@ -1,0 +1,32 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.light {
+  background-color: white;
+  color: black;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.dark {
+  background-color: rgb(34, 32, 32);
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toggle-btn {
+  padding: 20px;
+  font-size: 16px;
+  margin: 20px;
+  cursor: pointer;
+  border-radius: 20px;
+}
