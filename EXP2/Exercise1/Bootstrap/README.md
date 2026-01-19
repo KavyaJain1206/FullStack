@@ -61,9 +61,10 @@ Bootstrap/
 ---
 
 ## Output / Evidence
-The output of this experiment is displayed using Bootstrap UI components and can be verified by running the application through:
+The screenshot below shows the output of the Bootstrap UI experiment:
 
-index.html
+![Bootstrap UI Output](image.png)
+
 
 ---
 
