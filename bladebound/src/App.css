@@ -1,0 +1,669 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;700&display=swap');
+/* --- CUSTOM GAME CURSOR --- */
+
+/* 1. Default State: A Sharp Silver Blade */
+body {
+  /* This is a custom SVG converted to a Data URI for instant loading */
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="%23C0C0C0" stroke="%23000000" stroke-width="1.5" d="M5.5,2.5 L20,10 L12,13 L10,21 L5.5,2.5 Z M9.5,8.5 L14,11 L10,13 L9.5,8.5 Z" style="filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.8));"/></svg>') 2 2, auto;
+}
+
+/* 2. Interactive State: Turns Blood Red on Hover */
+button, 
+.class-card, 
+.tap-to-skip, 
+.start-screen,
+.cinematic-btn {
+  /* Changes to a Red Blade when hovering over clickable items */
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="%238b0000" stroke="%23c5a059" stroke-width="1.5" d="M5.5,2.5 L20,10 L12,13 L10,21 L5.5,2.5 Z M9.5,8.5 L14,11 L10,13 L9.5,8.5 Z" style="filter: drop-shadow(0px 0px 5px rgba(139,0,0,0.8));"/></svg>') 2 2, pointer !important;
+}
+
+/* 3. Disable standard text selection cursor for immersion */
+.prologue-text, .main-title-text, .result-title, .hp-label {
+  cursor: default;
+}
+
+:root {
+  --blood-red: #8b0000;
+  --gold: #c5a059;
+}
+
+body {
+  margin: 0;
+  background: #000;
+  color: #fff;
+  font-family: 'Cinzel', serif;
+  overflow: hidden;
+}
+
+/* --- LOGO STYLING --- */
+.top-logo-fixed {
+  position: fixed;
+  top: 25px;
+  left: 25px;
+  z-index: 9999;
+}
+
+.header-avatar {
+  border: 1px solid var(--gold);
+  box-shadow: 0 0 10px rgba(197, 160, 89, 0.3);
+  background: #000;
+}
+
+/* --- SCENE BACKGROUNDS --- */
+.game-container {
+  height: 100vh;
+  width: 100vw;
+  background: #000;
+}
+
+.scene {
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  background-size: cover;
+  background-position: center;
+}
+/* --- THE CONTAINER --- */
+.start-screen {
+  position: relative;
+  overflow: hidden;
+  background-color: #000; /* Pure black background for the minimized frame */
+  z-index: 1;
+}
+
+/* --- THE MINIMIZED BACKGROUND IMAGE --- */
+.start-screen::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+  /* MINIMIZING LOGO/IMAGE HERE */
+  background-image: url('/background/start.png');
+  background-repeat: no-repeat;
+  background-position: center 45%; /* Slightly above center to clear the button */
+  background-size: 70%; /* <--- Change this percentage to make the image smaller or larger */
+  
+  /* Dark Fantasy Grading */
+  filter: brightness(0.6) contrast(1.1) saturate(0.8);
+  transform: scale(1);
+  transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: -2;
+}
+
+/* --- DYNAMIC VIGNETTE --- */
+.start-screen::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  /* Creates a soft shadow frame around the minimized image */
+  background: radial-gradient(circle, transparent 50%, #000 100%);
+  opacity: 0.8;
+  transition: opacity 1s ease;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* --- HOVER DYNAMICS --- */
+.start-screen:hover::before {
+  /* When hovering, the image zooms slightly but stays within its "minimized" frame */
+  transform: scale(1.08); 
+  filter: brightness(1.1) contrast(1.2) saturate(1);
+}
+
+.start-screen:hover::after {
+  opacity: 0.5; /* Vignette thins out to show more detail */
+}
+
+/* --- EMBER PARTICLES (Styled for Minimized Layout) --- */
+/* --- PARTICLE CONTAINER --- */
+.particle-container {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 0; 
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* --- BASE PARTICLE STYLE --- */
+.ember {
+  position: absolute;
+  bottom: -20px;
+  width: 3px;
+  height: 3px;
+  background: var(--gold);
+  box-shadow: 0 0 6px var(--gold), 0 0 3px var(--blood-red);
+  border-radius: 50%;
+  opacity: 0;
+}
+
+/* --- ASSIGNING RANDOM PATHS & DELAYS --- */
+
+/* Group 1: Drifts Left (Zig Zag) */
+.ember:nth-child(3n+1) { 
+  left: 20%; 
+  animation-duration: 4s; 
+  animation-name: zigzagLeft; /* Custom Path 1 */
+}
+
+/* Group 2: Drifts Right (Zig Zag) */
+.ember:nth-child(3n+2) { 
+  left: 50%; 
+  animation-duration: 5.5s; 
+  width: 4px; height: 4px;
+  animation-name: zigzagRight; /* Custom Path 2 */
+}
+
+/* Group 3: Drifts Center (Wobbly) */
+.ember:nth-child(3n+3) { 
+  left: 80%; 
+  animation-duration: 3.5s; 
+  animation-name: driftCenter; /* Custom Path 3 */
+}
+
+/* Add randomized delays so they don't start at once */
+.ember:nth-child(1) { left: 10%; animation-delay: 0s; }
+.ember:nth-child(2) { left: 25%; animation-delay: 1.5s; }
+.ember:nth-child(3) { left: 40%; animation-delay: 3s; }
+.ember:nth-child(4) { left: 55%; animation-delay: 0.5s; }
+.ember:nth-child(5) { left: 70%; animation-delay: 2.2s; }
+.ember:nth-child(6) { left: 85%; animation-delay: 1.1s; }
+.ember:nth-child(7) { left: 15%; animation-delay: 3.5s; }
+.ember:nth-child(8) { left: 35%; animation-delay: 0.2s; }
+.ember:nth-child(9) { left: 60%; animation-delay: 2.8s; }
+.ember:nth-child(10) { left: 90%; animation-delay: 0.9s; }
+/* ... CSS will repeat the pattern for n+11 automatically ... */
+.ember:nth-child(n+11) { left: 5%; animation-duration: 2.8s; animation-delay: 1s; }
+.ember:nth-child(n+20) { left: 45%; animation-duration: 3.2s; animation-delay: 0.5s; }
+.ember:nth-child(n+30) { left: 75%; animation-duration: 2.5s; animation-delay: 1.8s; }
+
+
+/* --- STATE 1: HOVER (Steady Stream) --- */
+/* Only reveal the first 15 particles for a "minimum amount" */
+.start-screen:hover .ember:nth-child(-n+15) {
+  opacity: 0.9;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+
+/* --- STATE 2: CLICK (The Burst) --- */
+/* Reveal ALL 50 particles and speed them up */
+.start-screen:active .ember {
+  opacity: 1 !important;
+  animation-name: burstUp !important; /* Switch to a fast, straight explosion */
+  animation-duration: 1.2s !important;
+  animation-timing-function: cubic-bezier(0, 0.9, 0.57, 1) !important;
+  animation-iteration-count: infinite !important;
+  background: #fff;
+  box-shadow: 0 0 10px #fff, 0 0 20px var(--gold);
+}
+
+
+/* --- KEYFRAMES (The Zig-Zag Logic) --- */
+
+@keyframes zigzagLeft {
+  0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
+  20% { opacity: 1; transform: translate(10px, -20vh) scale(1); }
+  40% { transform: translate(-20px, -40vh) scale(1); }
+  60% { transform: translate(15px, -60vh) scale(0.8); }
+  80% { transform: translate(-10px, -80vh) scale(0.6); }
+  100% { transform: translate(0, -110vh) scale(0); opacity: 0; }
+}
+
+@keyframes zigzagRight {
+  0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
+  20% { opacity: 1; transform: translate(-15px, -20vh) scale(1); }
+  40% { transform: translate(25px, -40vh) scale(1); }
+  60% { transform: translate(-20px, -60vh) scale(0.8); }
+  80% { transform: translate(10px, -80vh) scale(0.6); }
+  100% { transform: translate(0, -110vh) scale(0); opacity: 0; }
+}
+
+@keyframes driftCenter {
+  0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
+  25% { opacity: 1; transform: translate(5px, -25vh); }
+  50% { transform: translate(-5px, -50vh); }
+  75% { transform: translate(5px, -75vh); }
+  100% { transform: translate(0, -110vh) scale(0); opacity: 0; }
+}
+
+@keyframes burstUp {
+  0% { transform: translateY(0) scale(0.5); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translateY(-120vh) scale(2); opacity: 0; }
+}
+
+.start-screen:hover .ember {
+  opacity: 1;
+  animation: floatUp 5s infinite linear;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(1); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(-80vh) scale(0); opacity: 0; }
+}
+
+.prologue-screen {
+  background: radial-gradient(circle, #1a1a1a 0%, #000 100%);
+}
+
+.char-screen {
+  background: radial-gradient(circle, #1a1a1a 0%, #000 100%), url('/background/texture.png');
+}
+
+.combat-screen {
+  background: radial-gradient(circle, #111 0%, #000 100%), url('/background/texture.png');
+}
+
+.result-screen {
+  background: radial-gradient(circle, rgba(40,0,0,0.4) 0%, #000 100%), url('/background/texture.png');
+}
+
+/* --- CHARACTER SELECTION FIX --- */
+.class-card {
+  height: 320px; /* Fixed height ensures no layout shift */
+  border: 1px solid rgba(197, 160, 89, 0.2);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  background: #000;
+}
+
+.class-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.5;
+  transition: 0.4s;
+}
+
+.class-card:hover .class-img {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.class-overlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(to top, #000, transparent);
+  text-align: center;
+}
+
+/* --- COMBAT & UI --- */
+.combat-layout {
+  height: 100vh;
+  padding-top: 100px !important;
+}
+
+.enemy-sprite {
+  height: 35vh;
+  max-height: 300px;
+  filter: drop-shadow(0 0 20px rgba(139, 0, 0, 0.4));
+}
+
+.bg-overlay-ui {
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid var(--gold);
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
+}
+
+.log-text {
+  font-size: 1.4rem;
+  color: var(--gold);
+  min-height: 3.5rem;
+  font-style: italic;
+  text-shadow: 0 0 5px #000;
+}
+
+/* --- TYPOGRAPHY --- */
+.medieval-title {
+  font-family: 'Cinzel Decorative', serif;
+  letter-spacing: 5px;
+}
+
+.cinematic-btn {
+  color: #fff !important;
+  font-size: 1.2rem !important;
+  letter-spacing: 10px !important;
+  transition: 0.4s !important;
+}
+
+.cinematic-btn:hover {
+  letter-spacing: 15px !important;
+  color: var(--gold) !important;
+  text-shadow: 0 0 10px var(--gold);
+}
+
+.result-title {
+  font-family: 'Cinzel Decorative';
+  font-size: 6rem !important;
+  text-shadow: 0 0 20px var(--blood-red);
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.result-subtitle {
+  color: var(--gold);
+  letter-spacing: 5px;
+  font-style: italic;
+  font-size: 1.5rem;
+}
+
+/* --- BUTTONS & BARS --- */
+.game-btn {
+  background: transparent !important;
+  border: 1px solid var(--gold) !important;
+  color: #fff !important;
+  padding: 8px 30px !important;
+  border-radius: 0 !important;
+  font-family: 'Cinzel', serif !important;
+}
+
+.game-btn:hover {
+  background: rgba(197, 160, 89, 0.15) !important;
+}
+
+.game-btn.special {
+  background: var(--blood-red) !important;
+  border-color: red !important;
+}
+
+.hp-bar {
+  height: 8px !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.player-hp .MuiLinearProgress-bar { background-color: #2e7d32; }
+.enemy-hp .MuiLinearProgress-bar { background-color: var(--blood-red); }
+
+/* --- ANIMATIONS --- */
+.screen-shake {
+  animation: shake 0.3s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+/* --- FOOTER CREDITS --- */
+.dev-footer {
+  border-top: 1px solid rgba(197, 160, 89, 0.2);
+  padding-top: 20px;
+  width: 300px;
+}
+
+.dev-label {
+  font-size: 0.6rem;
+  letter-spacing: 5px;
+  color: var(--gold);
+  opacity: 0.7;
+}
+
+.dev-name {
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.dev-sub {
+  font-size: 0.6rem;
+  letter-spacing: 3px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* --- MEDIEVAL PROLOGUE STYLES --- */
+
+.prologue-container {
+  max-width: 800px;
+  padding: 3rem 2rem;
+  border: 1px solid rgba(197, 160, 89, 0.3);
+  background: rgba(0, 0, 0, 0.7); 
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.9);
+  border-radius: 2px;
+  position: relative;
+}
+
+.prologue-text {
+  font-family: 'Cinzel', serif;
+  font-size: 1.8rem !important;
+  font-weight: 400 !important; /* Forces normal weight (not bold) */
+  color: rgba(224, 224, 224, 0.9); /* Slightly transparent silver */
+  line-height: 1.6 !important;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8); /* Softer shadow */
+}
+
+.drop-cap {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 4.5rem;
+  float: left;
+  line-height: 0.7;
+  margin-right: 15px;
+  margin-top: 5px;
+  font-weight: 400; /* Ensures the big letter isn't too chunky */
+  color: var(--gold);
+  text-shadow: 0 0 15px rgba(197, 160, 89, 0.3);
+}
+
+.medieval-divider {
+  font-size: 1.5rem;
+  color: var(--blood-red);
+  letter-spacing: 15px;
+  opacity: 0.8;
+  font-weight: 400; /* Keeps symbols crisp */
+  text-shadow: 0 0 10px rgba(139, 0, 0, 0.6);
+}
+
+.tap-to-skip {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem !important;
+  letter-spacing: 4px !important;
+  color: var(--gold);
+  opacity: 0.6;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin-top: 40px !important;
+}
+
+
+/* --- CINEMATIC AWAKEN BUTTON EFFECT --- */
+
+.cinematic-btn {
+  position: relative !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: 1.5rem !important;
+  letter-spacing: 8px !important;
+  background: transparent !important;
+  border: none !important;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1) !important;
+  overflow: visible !important; /* Allows the ghost text to expand outside */
+  z-index: 10;
+}
+
+/* The "Ghost" Text Layer */
+.cinematic-btn::before {
+  content: attr(data-text); /* Grabs the text from the JSX */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  width: 100%;
+  color: var(--blood-red); /* Your theme red */
+  font-size: 1.5rem;
+  letter-spacing: 8px;
+  opacity: 0;
+  filter: blur(0px);
+  transition: all 0.8s ease-out;
+  pointer-events: none; /* Mouse clicks go through it */
+  z-index: -1;
+  white-space: nowrap;
+}
+
+/* --- HOVER STATE --- */
+
+/* Main Text Changes */
+.cinematic-btn:hover {
+  color: var(--gold) !important; /* Turns Gold */
+  letter-spacing: 16px !important; /* Spreads out wide */
+  text-shadow: 0 0 20px rgba(197, 160, 89, 0.6), 0 0 10px #000;
+  transform: scale(1.1);
+}
+
+/* Ghost Text Animation */
+.cinematic-btn:hover::before {
+  opacity: 0; /* Fades out as it expands */
+  transform: translate(-50%, -50%) scale(2.5); /* Explodes outward */
+  filter: blur(8px); /* Becomes misty */
+  letter-spacing: 30px; /* Spreads even wider than main text */
+}
+
+/* Optional: Add a subtle bottom glow line */
+.cinematic-btn::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--blood-red), transparent);
+  transition: width 0.6s ease;
+  transform: translateX(-50%);
+}
+
+.cinematic-btn:hover::after {
+  width: 150%; /* Line expands wider than the text */
+}
+
+/* --- AUTHENTICATION FORM STYLING --- */
+.auth-container {
+  background: rgba(0, 0, 0, 0.95);
+  border: 2px solid var(--gold);
+  border-radius: 8px;
+  padding: 40px 30px;
+  box-shadow: 0 0 30px rgba(197, 160, 89, 0.3), inset 0 0 20px rgba(139, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.auth-input {
+  margin-bottom: 20px !important;
+}
+
+.auth-input .MuiOutlinedInput-root {
+  color: #fff;
+  border-color: var(--gold) !important;
+}
+
+.auth-input .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: var(--blood-red) !important;
+}
+
+.auth-input .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 10px rgba(197, 160, 89, 0.3);
+}
+
+.auth-input .MuiInputBase-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+  opacity: 1;
+}
+
+.auth-input .MuiInputLabel-root {
+  color: var(--gold) !important;
+}
+
+.auth-input .MuiInputLabel-root.Mui-focused {
+  color: var(--blood-red) !important;
+}
+
+.error-text {
+  font-size: 0.9rem;
+  text-align: center;
+  animation: pulse 0.6s ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* --- LEADERBOARD STYLING --- */
+.MuiDialog-paper {
+  background: rgba(0, 0, 0, 0.95) !important;
+  border: 2px solid var(--gold) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 0 40px rgba(197, 160, 89, 0.5) !important;
+}
+
+.MuiDialogTitle-root {
+  background: linear-gradient(135deg, rgba(139, 0, 0, 0.3), rgba(0, 0, 0, 0.5));
+  border-bottom: 2px solid var(--gold);
+  color: var(--gold) !important;
+  text-align: center;
+  padding: 20px !important;
+}
+
+.MuiDialogContent-root {
+  background: rgba(0, 0, 0, 0.8) !important;
+  color: #fff !important;
+  padding: 20px !important;
+}
+
+.MuiDialogActions-root {
+  background: rgba(0, 0, 0, 0.9) !important;
+  border-top: 1px solid var(--gold);
+  padding: 15px !important;
+  justify-content: center !important;
+}
+
+.leaderboard-entry {
+  background: rgba(139, 0, 0, 0.2);
+  border-radius: 4px;
+  border: 1px solid rgba(197, 160, 89, 0.3);
+  transition: all 0.3s ease;
+}
+
+.leaderboard-entry:hover {
+  background: rgba(139, 0, 0, 0.4);
+  border-color: var(--gold);
+  transform: translateX(5px);
+}
+
+.leaderboard-entry .MuiTypography-root {
+  color: #fff !important;
+}
+
+/* --- BOTTOM LEADERBOARD ON START SCREEN --- */
+.leaderboard-bottom {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  border: 2px solid var(--gold);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 0 20px rgba(197, 160, 89, 0.3);
+}
+
+.leaderboard-mini-card {
+  transition: all 0.3s ease;
+}
+
+.leaderboard-mini-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(197, 160, 89, 0.5);
+  border-color: var(--blood-red) !important;
+}
+
+/* --- CLICKABLE LOGO --- */
+.top-logo-fixed:hover .header-avatar {
+  box-shadow: 0 0 20px rgba(197, 160, 89, 0.6);
+  border-color: var(--blood-red);
+}
+
