@@ -1,12 +1,114 @@
-# React + Vite
+# Exercise-3: Theme Toggle Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+A theme toggle application built with React and Vite that allows users to switch between light and dark modes. This project demonstrates conditional rendering and CSS class management based on component state.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **Light/Dark Theme Toggle**: Switch between two themes with a single button click
+- **Dynamic Styling**: CSS classes change based on the current theme
+- **Smooth Theme Switching**: Instant visual feedback
+- **State Persistence**: Uses React state to maintain theme preference
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Technologies Used
+
+- React 18
+- Vite - Fast build tool and dev server
+- JavaScript
+- CSS (with conditional class names)
+
+## Project Structure
+
+```
+themetoggle/
+├── src/
+│   ├── App.jsx          # Main theme toggle component
+│   ├── App.css          # Styling for light and dark modes
+│   ├── main.jsx         # Entry point
+│   └── index.css        # Global styles
+├── index.html           # HTML template
+├── vite.config.js       # Vite configuration
+├── package.json         # Dependencies
+└── eslint.config.js     # ESLint configuration
+```
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v14 or higher)
+- npm or yarn
+
+### Installation
+
+1. Navigate to the project directory:
+
+   ```bash
+   cd Exercise-3/themetoggle
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+### Running the Application
+
+**Development Mode:**
+
+```bash
+npm run dev
+```
+
+The application will start at `http://localhost:5173`
+
+**Build for Production:**
+
+```bash
+npm run build
+```
+
+**Preview Production Build:**
+
+```bash
+npm run preview
+```
+
+## How It Works
+
+- **State Management**: `darkMode` boolean state tracks the current theme
+- **Conditional Class**: The root div receives either "dark" or "light" class based on `darkMode` state
+- **Toggle Functionality**: Button click toggles the `darkMode` state between true and false
+- **CSS Styling**: Different background colors and text colors for each theme
+
+## CSS Theme Structure
+
+```css
+.light {
+  /* Light mode styles */
+}
+
+.dark {
+  /* Dark mode styles */
+}
+
+.toggle-btn {
+  /* Button styling */
+}
+```
+
+## Learning Objectives
+
+- State-based conditional rendering
+- Dynamic CSS class assignment
+- Event handling for user interactions
+- Building theme systems in React
+- CSS organization for multiple themes
+
+## Best Practices Demonstrated
+
+- Single source of truth for theme state
+- Clear separation of theme styles
+- Responsive and accessible design patterns
+- Efficient re-rendering with minimal state changes
