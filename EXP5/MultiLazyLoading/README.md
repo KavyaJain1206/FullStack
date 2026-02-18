@@ -5,6 +5,8 @@ This project demonstrates lazy loading for multiple components and routes in Rea
 ## Demo
 
 ![Multi lazy loading demo](./image.png)
+![Multi lazy loading demo](./image2.png)
+![Multi lazy loading demo](./image3.png)
 
 ## What it shows
 
