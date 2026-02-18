@@ -5,6 +5,7 @@ This project is a simple demo that shows how lazy loading works in React using `
 ## Demo
 
 ![Lazy loading demo](./image.png)
+![Lazy loading demo](./image2.png)
 
 ## What it shows
 

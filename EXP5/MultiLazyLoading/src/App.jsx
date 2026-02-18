@@ -1,31 +1,34 @@
 import { lazy, Suspense } from "react";
 import { NavLink, Routes, Route } from "react-router-dom";
+import "./App.css";
 
-const Profile = lazy(() => import("./components/profile"));
-const Dashboard = lazy(() => import("./components/dashboard"));
+const Home = lazy(() => import("./components/Home"));
+const About = lazy(() => import("./components/About"));
 const Contact = lazy(() => import("./components/Contact"));
 
 function App() {
   return (
     <div className="App">
-      <h1>Lazy Loading in React</h1>
+      <header className="app-header">
+        <h1 className="app-title">Lazy Loading in React</h1>
 
-      <nav className="nav">
-        <NavLink className="nav-link" to="/">
-          Profile
-        </NavLink>
-        <NavLink className="nav-link" to="/dashboard">
-          Dashboard
-        </NavLink>
-        <NavLink className="nav-link" to="/contact">
-          Contact
-        </NavLink>
-      </nav>
+        <nav className="nav">
+          <NavLink className="nav-link" to="/">
+            Home
+          </NavLink>
+          <NavLink className="nav-link" to="/about">
+            About
+          </NavLink>
+          <NavLink className="nav-link" to="/contact">
+            Contact
+          </NavLink>
+        </nav>
+      </header>
 
       <Suspense fallback={<div className="loader">Loading module...</div>}>
         <Routes>
-          <Route path="/" element={<Profile />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
       </Suspense>

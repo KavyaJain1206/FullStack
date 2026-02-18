@@ -1,9 +1,10 @@
 function Contact() {
   return (
-    <section>
-      <h2>Contact Page</h2>
-      <p>Email: kjain2005.kj@gmail.com</p>
-      <p>Phone No.: 6378264195</p>
+    <section className="page">
+      <h2 className="page-title">Contact</h2>
+      <div className="page-card">
+        <p className="lead">Email: kjain2005.kj@gmail.com</p>
+      </div>
     </section>
   )
 }
