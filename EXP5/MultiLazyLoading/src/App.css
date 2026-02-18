@@ -62,6 +62,15 @@
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
 }
 
+.loader--header {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  z-index: 20;
+}
+
 .loader::before {
   content: "";
   width: 16px;

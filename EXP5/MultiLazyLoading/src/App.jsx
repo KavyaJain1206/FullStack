@@ -25,7 +25,7 @@ function App() {
         </nav>
       </header>
 
-      <Suspense fallback={<div className="loader">Loading module...</div>}>
+      <Suspense fallback={<div className="loader loader--header">Loading...</div>}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
