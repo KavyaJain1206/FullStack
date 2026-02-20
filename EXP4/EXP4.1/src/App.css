@@ -1,0 +1,118 @@
+#root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.app-container {
+  min-height: 100vh;
+  width: 100%;
+  transition: background-color 0.5s ease, color 0.5s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.app-container.light {
+  background-color: #facc15;
+  color: #111111;
+}
+
+.app-container.dark {
+  background-color: #111111;
+  color: #facc15;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+button {
+  border-radius: 10px;
+  border: 2px solid #facc15;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 700;
+  font-family: inherit;
+  background-color: #111111;
+  color: #facc15;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease, transform 0.15s ease;
+}
+
+button:hover {
+  background-color: #facc15;
+  color: #111111;
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+.app-container.light button {
+  background-color: #111111;
+  color: #facc15;
+  border-color: #111111;
+}
+
+.app-container.dark button {
+  background-color: #facc15;
+  color: #111111;
+  border-color: #facc15;
+}
+
+.app-container.dark button:hover {
+  background-color: #111111;
+  color: #facc15;
+  border-color: #facc15;
+}
+
+.app-container.light button:hover {
+  background-color: #facc15;
+  color: #111111;
+  border-color: #111111;
+}
