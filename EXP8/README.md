@@ -70,3 +70,15 @@ The app runs on:
 ### Screenshot 2 (image2)
 
 ![Screenshot 2](./try/image2.png)
+
+### Screenshot 3 Database (image3)
+
+![Screenshot 2](./try/image3.png)
+
+### Screenshot 4-8 Crud Methods (image4)
+
+![Screenshot 2](./try/image4.png)
+![Screenshot 2](./try/image5.png)
+![Screenshot 2](./try/image6.png)
+![Screenshot 2](./try/image7.png)
+![Screenshot 2](./try/image8.png)
